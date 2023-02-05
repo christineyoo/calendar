@@ -58,6 +58,11 @@ const AgendaDay = (props: Props) => {
   const remindersContext = useContext(RemindersContext);
   const selectedDate = agendaStatus.date;
 
+  const standardTimeHelper = (militaryTime) => {
+    // Note: 2000-01-01 is a dummy date value
+    return new Date(`2000-01-01T${militaryTime}:00`);
+  }
+
   const getCurrentDayReminders = (reminders) => {
     const currentReminders = reminders.filter(reminder => dateFns.isSameDay(selectedDate, dateFns.parseISO(reminder.date)));
     const sortedReminders = currentReminders.sort((a, b) => {
@@ -71,7 +76,7 @@ const AgendaDay = (props: Props) => {
           <div key={reminder.id}>
             <Typography>
               <span className={classes.dot} style={{ backgroundColor: reminder.color }}></span>
-              {dateFns.format(new Date(`2000-01-01T${reminder.time}:00`), 'h:mm aa')} {reminder.title}
+              {dateFns.format(standardTimeHelper(reminder.time), 'h:mm aa')} {reminder.title}
             </Typography>
           </div>
         )
